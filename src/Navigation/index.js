@@ -1,20 +1,21 @@
 import React from 'react';
-import {View, Text, Button, Image, StyleSheet} from 'react-native';
-
-// import Ionicons from 'react-native-vector-icons/Ionicons';
+import {View, Text, Button, Image} from 'react-native';
+import styles from '../styles';
 import {
   createAppContainer,
   createStackNavigator,
-  StackActions,
-  NavigationActions,
   createBottomTabNavigator,
 } from 'react-navigation'; // Version can be specified in package.json
-import TodoApp from '../Todo';
-import FlatListExample from '../FlatList';
-import ScrollViewExample from '../ScrollView';
-import SectionListExample from '../SectionList';
-import BasicApp from '../BasicApp';
-import BasicNavigation from '../BasicNavigation';
+import TodoApp from '../components/Todo';
+import FlatListExample from '../components/FlatList';
+import ScrollViewExample from '../components/ScrollView';
+import SectionListExample from '../components/SectionList';
+import BasicApp from '../components/BasicApp';
+import BasicNavigation from '../components/BasicNavigation';
+import OtherComponentScreen from '../OtherComponents';
+import TransferScreen from '../components/Transfer';
+import ReduxForm from '../ReduxForm';
+import InAppBrowser from '../components/InAppBrowser';
 
 /*=========================================
           HomeScreen
@@ -40,13 +41,6 @@ class HomeScreen extends React.Component {
           onPress={navigation.getParam('increaseCount')}
           title="+1"
           color="#fff"
-        />
-      ),
-      headerLeft: (
-        <Button
-          title="Modal"
-          color="#fff"
-          onPress={() => navigation.navigate('MyModal')}
         />
       ),
     };
@@ -82,14 +76,12 @@ class HomeScreen extends React.Component {
             DetailsScreen
 =========================================*/
 class DetailsScreen extends React.Component {
-  static navigationOptions = ({navigation, navigationOptions, screenProps}) => {
-    return {
-      title: 'Details',
-      headerStyle: {
-        backgroundColor: navigationOptions.headerTintColor,
-      },
-      headerTintColor: navigationOptions.headerStyle.backgroundColor,
-    };
+  static navigationOptions = {
+    title: 'Details',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#000',
   };
 
   render() {
@@ -117,8 +109,18 @@ class DetailsScreen extends React.Component {
             SettingsScreen
 =========================================*/
 class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Settings',
+
+      headerLeft: (
+        <Button
+          title="Modal"
+          color="#fff"
+          onPress={() => navigation.navigate('MyModal')}
+        />
+      ),
+    };
   };
 
   render() {
@@ -191,7 +193,7 @@ class ProfileScreen extends React.Component {
 class Logo extends React.Component {
   render() {
     return (
-      <Image source={require('./spiro.png')} style={{width: 30, height: 30}} />
+      <Image source={require('./spiro.png')} style={styles.imgDimensions} />
     );
   }
 }
@@ -220,7 +222,7 @@ class LogoTitleScreen extends React.Component {
           logo title screen - Replacing the title with a custom component and
           info button on right
         </Text>
-        <View style={{backgroundColor: '#816db5'}}>
+        <View style={styles.logoBg}>
           <Logo />
         </View>
       </View>
@@ -252,46 +254,6 @@ class MyModalScreen extends React.Component {
 }
 
 /*=========================================
-            OtherComponentScreen
-=========================================*/
-class OtherComponentScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Other Components',
-  };
-
-  render() {
-    return (
-      <View>
-        <Button
-          title="Todo"
-          onPress={() => this.props.navigation.navigate('Todo')}
-        />
-        <Button
-          title="BasicApp"
-          onPress={() => this.props.navigation.navigate('BasicApp')}
-        />
-        <Button
-          title="BasicNavigation"
-          onPress={() => this.props.navigation.navigate('BasicNavigation')}
-        />
-        <Button
-          title="FlatList"
-          onPress={() => this.props.navigation.navigate('FlatList')}
-        />
-        <Button
-          title="ScrollView"
-          onPress={() => this.props.navigation.navigate('ScrollView')}
-        />
-        <Button
-          title="SectionList"
-          onPress={() => this.props.navigation.navigate('SectionList')}
-        />
-      </View>
-    );
-  }
-}
-
-/*=========================================
             getTabBarIcon
 =========================================*/
 
@@ -311,9 +273,9 @@ const HomeStack = createStackNavigator(
     Home: HomeScreen,
     Details: DetailsScreen,
     LogoTitle: LogoTitleScreen,
-    MyModal: MyModalScreen,
   },
   {
+    headerTransitionPreset: 'fade-in-place',
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: '#816db5',
@@ -324,21 +286,24 @@ const HomeStack = createStackNavigator(
       },
     },
   },
-  {
-    mode: 'modal',
-    headerMode: 'none',
-    headerTransitionPreset: 'fade-in-place',
-  },
 );
 
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
     Profile: ProfileScreen,
+    MyModal: MyModalScreen,
   },
   {
+    mode: 'modal',
+    // headerMode: 'none',
     defaultNavigationOptions: {
       headerBackImage: <Logo />,
+      headerStyle: {
+        backgroundColor: 'lightgreen',
+      },
+      headerTintColor: '#816db5',
+
       headerBackTitle:
         'A much too long text for back button from Detail to Home',
       headerTruncatedBackTitle: 'back to Home',
@@ -354,20 +319,20 @@ const OtherComponentStack = createStackNavigator({
   FlatList: FlatListExample,
   ScrollView: ScrollViewExample,
   SectionList: SectionListExample,
+  Transfer: TransferScreen,
+  ReduxForm: ReduxForm,
+  InAppBrowser: InAppBrowser,
 });
 
-const TabNavigator = createBottomTabNavigator({
-  Home: HomeStack,
-  Settings: SettingsStack,
-  ['Other Components']: OtherComponentStack,
-});
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+const TabNavigator = createBottomTabNavigator(
+  {
+    Home: HomeStack,
+    Settings: SettingsStack,
+    ['Other Components']: OtherComponentStack,
   },
-});
+  {
+    initialRouteName: 'Other Components',
+  },
+);
 
 export default createAppContainer(TabNavigator);

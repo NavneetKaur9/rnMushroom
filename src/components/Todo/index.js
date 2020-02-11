@@ -49,10 +49,5 @@ export default class TodoApp extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'white',
-    // flexDirection: 'column',
-    // alignItems: 'stretch',
-    // // justifyContent: 'center',
-    // alignContent: 'flex-start'
   },
 });

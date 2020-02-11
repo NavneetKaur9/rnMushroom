@@ -1,12 +1,5 @@
 import React, {Component} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Image,
-  ScrollView,
-  FlatList,
-} from 'react-native';
+import {StyleSheet, Text, FlatList} from 'react-native';
 
 const rows = [
   {id: 0, text: 'View'},
