@@ -15,7 +15,7 @@ import styles from './styles';
 export default class OtherComponentScreen extends React.Component {
   static navigationOptions = {
     title: 'Other Components',
-    headerBackTitle: 'Back .. back',
+    headerBackTitle: 'Back',
   };
 
   render() {
@@ -67,13 +67,18 @@ export default class OtherComponentScreen extends React.Component {
         />
 
         <Button
-          title="Redux Form example"
+          title="InAppBrowser Example"
+          onPress={() => this.props.navigation.navigate('InAppBrowserExample')}
+        />
+
+        <Button
+          title="Redux Form"
           onPress={() => this.props.navigation.navigate('ReduxForm')}
         />
 
         <Button
-          title="InAppBrowser"
-          onPress={() => this.props.navigation.navigate('InAppBrowser')}
+          title="Add Tickets"
+          onPress={() => this.props.navigation.navigate('AddTickets')}
         />
       </ScrollView>
     );

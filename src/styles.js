@@ -80,4 +80,12 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     lineHeight: 20,
   },
+  textColor: {
+    color: '#ffffff',
+    textAlign: 'center',
+  },
+  headerSecondaryText: {
+    fontSize: 10,
+    color: '#ffffff',
+  },
 });

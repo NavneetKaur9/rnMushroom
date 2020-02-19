@@ -15,8 +15,9 @@ import BasicNavigation from '../components/BasicNavigation';
 import OtherComponentScreen from '../OtherComponents';
 import TransferScreen from '../components/Transfer';
 import ReduxForm from '../ReduxForm';
-import InAppBrowser from '../components/InAppBrowser';
-
+import InAppBrowserExample from '../components/InAppBrowserExample';
+import BasicForm from '../ReduxForm/BasicForm';
+import AddTickets from '../ReduxForm/AddTickets';
 /*=========================================
           HomeScreen
 =========================================*/
@@ -145,13 +146,6 @@ class SettingsScreen extends React.Component {
 =========================================*/
 class ProfileScreen extends React.Component {
   static navigationOptions = ({navigation, navigationOptions, screenProps}) => {
-    console.log(
-      'navigation, navigationOptions, screenProps::',
-      navigation,
-      navigationOptions,
-      screenProps,
-    );
-
     return {
       title: 'User - ' + navigation.getParam('userName', 'No user'),
       headerStyle: {
@@ -179,7 +173,9 @@ class ProfileScreen extends React.Component {
         <Button
           title="Change Title"
           onPress={() =>
-            this.props.navigation.setParams({userName: 'Navni' + Math.random()})
+            this.props.navigation.setParams({
+              userName: 'Navni' + Math.random(),
+            })
           }
         />
       </View>
@@ -268,6 +264,16 @@ class MyModalScreen extends React.Component {
 //   initialRouteName: 'Home',
 // });
 
+const isTabBarVisible = navigationState => {
+  let route = navigationState.routes[navigationState.index].routeName;
+
+  if (route === 'Transfer' || route === 'ReduxForm') {
+    return false;
+  }
+
+  return true;
+};
+
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -296,7 +302,6 @@ const SettingsStack = createStackNavigator(
   },
   {
     mode: 'modal',
-    // headerMode: 'none',
     defaultNavigationOptions: {
       headerBackImage: <Logo />,
       headerStyle: {
@@ -314,14 +319,16 @@ const SettingsStack = createStackNavigator(
 const OtherComponentStack = createStackNavigator({
   other: OtherComponentScreen,
   Todo: TodoApp,
-  BasicApp: BasicApp,
+  BasicApp,
   BasicNavigation: BasicNavigation,
   FlatList: FlatListExample,
   ScrollView: ScrollViewExample,
   SectionList: SectionListExample,
   Transfer: TransferScreen,
-  ReduxForm: ReduxForm,
-  InAppBrowser: InAppBrowser,
+  InAppBrowserExample,
+  ReduxForm,
+  BasicForm,
+  AddTickets,
 });
 
 const TabNavigator = createBottomTabNavigator(
@@ -332,6 +339,13 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: 'Other Components',
+    defaultNavigationOptions: config => {
+      const {navigation} = config;
+
+      return {
+        tabBarVisible: isTabBarVisible(navigation.state),
+      };
+    },
   },
 );
 

@@ -8,7 +8,9 @@ export default class ScrollViewExample extends Component {
         <View style={styles.container}>
           <Image
             style={styles.image}
-            source={{uri: 'http://www.reactnativeexpress.com/static/logo.png'}}
+            source={{
+              uri: 'http://www.reactnativeexpress.com/static/logo.png',
+            }}
           />
           <Text style={styles.text}>Building React Native UI</Text>
         </View>
@@ -17,15 +19,21 @@ export default class ScrollViewExample extends Component {
         <ScrollView horizontal style={styles.horizontal}>
           <Image
             style={styles.image}
-            source={{uri: 'http://www.reactnativeexpress.com/static/logo.png'}}
+            source={{
+              uri: 'http://www.reactnativeexpress.com/static/logo.png',
+            }}
           />
           <Image
             style={styles.image}
-            source={{uri: 'http://www.reactnativeexpress.com/static/logo.png'}}
+            source={{
+              uri: 'http://www.reactnativeexpress.com/static/logo.png',
+            }}
           />
           <Image
             style={styles.image}
-            source={{uri: 'http://www.reactnativeexpress.com/static/logo.png'}}
+            source={{
+              uri: 'http://www.reactnativeexpress.com/static/logo.png',
+            }}
           />
         </ScrollView>
 
